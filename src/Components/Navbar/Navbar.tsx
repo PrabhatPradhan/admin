@@ -10,12 +10,13 @@ import {
   FaUser,
   FaSignOutAlt,
 } from "react-icons/fa";
-import avtar from "../../../public/avatar5.png"
+import avtar from "../../../public/avatar5.png";
+
 export default function Navbar() {
   const [showPopup, setShowPopup] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const userMenuRef = useRef(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
   const [formData, setFormData] = useState({
     related: "",
@@ -23,7 +24,7 @@ export default function Navbar() {
     remark: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (!e || !e.target) return;
     const name = e.target.name;
     const value = e.target.value;
@@ -37,7 +38,6 @@ export default function Navbar() {
     }
 
     console.log("Saved Data:", formData);
-
     setFormData({ related: "", date: "", remark: "" });
     setShowPopup(false);
   };
@@ -52,8 +52,8 @@ export default function Navbar() {
   ];
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
         setShowUserMenu(false);
       }
     };
@@ -126,7 +126,7 @@ export default function Navbar() {
 
       {/* Popup Modal for Reminder */}
       {showPopup && (
-        <div className="fixed inset-0 flex items-center justify-center px-2 sm:px-0 z-50  bg-opacity-30">
+        <div className="fixed inset-0 flex items-center justify-center px-2 sm:px-0 z-50 bg-black bg-opacity-30">
           <div className="bg-white rounded shadow-lg w-full max-w-md sm:max-w-lg p-4 sm:p-6 relative">
             <div className="flex justify-between items-center border-b pb-3 mb-4">
               <h2 className="text-lg font-semibold flex items-center gap-2">
@@ -195,4 +195,4 @@ export default function Navbar() {
       )}
     </div>
   );
-}                                            
+}
