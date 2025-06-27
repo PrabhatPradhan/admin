@@ -1,9 +1,6 @@
 "use client";
 
 import React from "react";
-
-import { FaBell, FaClipboardList } from "react-icons/fa";
-
 import Dashboard from "@/Components/Dashboard/Dashboard";
 import { FaTachometerAlt } from "react-icons/fa";
 import Sidebar from "@/Components/Sidebar/Sidebar";

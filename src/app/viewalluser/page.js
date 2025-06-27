@@ -41,7 +41,7 @@ const users = [
   },
 ];
 
-export default function Page() {
+export default function page() {
   const [popupContent, setPopupContent] = useState(null);
 
   const handlePopup = (type, user) => {

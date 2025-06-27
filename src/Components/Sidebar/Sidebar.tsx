@@ -11,7 +11,8 @@ import {
   FaChevronDown,
   FaBars,
 } from "react-icons/fa";
-
+import logo from "../../../public/logo.png"
+import Image from "next/image";
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -33,8 +34,8 @@ export default function Sidebar() {
       >
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <img
-            src="http://127.0.0.1:5500/CRM%20ADMIN/assets/dist/img/logo.png"
+          <Image
+            src={logo}
             alt="Logo"
             className="h-10 ml-10"
           />

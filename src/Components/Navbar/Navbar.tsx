@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import {
@@ -9,8 +10,8 @@ import {
   FaUser,
   FaSignOutAlt,
 } from "react-icons/fa";
-
-export default function HeaderWithPopup() {
+import avtar from "../../../public/avatar5.png"
+export default function Navbar() {
   const [showPopup, setShowPopup] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -97,8 +98,8 @@ export default function HeaderWithPopup() {
 
           {/* User Avatar */}
           <div className="relative" ref={userMenuRef}>
-            <img
-              src="http://127.0.0.1:5500/CRM%20ADMIN/assets/dist/img/avatar5.png"
+            <Image
+              src={avtar}
               alt="User"
               className="w-8 sm:w-10 h-8 sm:h-10 rounded-full border-2 border-white cursor-pointer"
               onClick={() => setShowUserMenu(!showUserMenu)}

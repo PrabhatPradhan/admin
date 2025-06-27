@@ -12,7 +12,7 @@ const leadsData = [
   { name: 'Nicrosoft', email: 'ms@info.net', mobile: '9170425365', source: 'Facebook', assigned: 'User 1', status: 'Not Important' },
 ];
 
-export default function Page() {
+export default function page() {
   const [leads, setLeads] = useState(leadsData);
   const [editIndex, setEditIndex] = useState(null);
 

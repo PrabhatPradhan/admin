@@ -4,7 +4,7 @@ import Sidebar from "../../Components/Sidebar/Sidebar";
 import Navbar from "../../Components/Navbar/Navbar";
 import { FaTachometerAlt, FaPlus, FaEdit, FaTrash, FaEye, FaBars } from "react-icons/fa";
 
-export default function Page() {
+export default function page() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showSidebar, setShowSidebar] = useState(true);
 
