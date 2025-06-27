@@ -5,7 +5,7 @@ import Sidebar from "../../Components/Sidebar/Sidebar";
 import Navbar from "../../Components/Navbar/Navbar";
 import { FaTachometerAlt } from "react-icons/fa";
 
-export default function page() {
+export default function Page() {
   const [formData, setFormData] = useState({});
 
   const handleChange = (e) => {

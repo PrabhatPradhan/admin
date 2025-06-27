@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Navbar from "../../Components/Navbar/Navbar";
@@ -12,104 +12,99 @@ const leadsData = [
   { name: 'Nicrosoft', email: 'ms@info.net', mobile: '9170425365', source: 'Facebook', assigned: 'User 1', status: 'Not Important' },
 ];
 
-export default function page() {
+export default function Page() {
   const [leads, setLeads] = useState(leadsData);
-  const [editIndex, setEditIndex] = useState(null);
 
   const handleEdit = (index) => {
-    setEditIndex(index);
     alert(`Edit clicked for: ${leads[index].name}`);
   };
 
   const handleDelete = (index) => {
-    const confirmed = window.confirm(`Are you sure you want to delete lead: ${leads[index].name}?`);
-    if (confirmed) {
-      const updatedLeads = [...leads];
-      updatedLeads.splice(index, 1);
-      setLeads(updatedLeads);
+    if (window.confirm(`Are you sure you want to delete lead: ${leads[index].name}?`)) {
+      setLeads((prev) => prev.filter((_, i) => i !== index));
     }
   };
 
   return (
-    <>
-      <div className="flex flex-col md:flex-row h-screen">
-        <div className="w-full md:w-64 bg-gray-800 text-white">
-          <Sidebar />
+    <div className="flex flex-col md:flex-row h-screen">
+      <div className="w-full md:w-64 bg-gray-800 text-white">
+        <Sidebar />
+      </div>
+
+      <div className="flex-1 overflow-y-auto bg-gray-100">
+        <Navbar />
+
+        {/* Page Header */}
+        <div className="bg-white px-6 py-4 shadow-sm border-b flex items-start md:items-center flex-col md:flex-row gap-4">
+          <FaTachometerAlt className="text-teal-600 text-4xl" />
+          <div>
+            <h1 className="text-2xl font-semibold text-gray-800">Leads</h1>
+            <p className="text-sm text-gray-600">Very detailed &amp; featured admin.</p>
+          </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto bg-gray-100">
-          <Navbar />
-          <div className="bg-white px-4 md:px-6 py-4 shadow-sm border-b flex items-start md:items-center flex-col md:flex-row gap-4">
-            <div className="text-teal-600 text-4xl">
-              <FaTachometerAlt />
-            </div>
-            <div>
-              <h1 className="text-2xl font-semibold text-gray-800">Leads</h1>
-              <p className="text-sm text-gray-600">Very detailed &amp; featured admin.</p>
-            </div>
+        {/* Table Card */}
+        <div className="p-4 bg-white rounded shadow-md">
+          <h2 className="text-lg font-semibold border-b pb-2 mb-4">Today Enquiry</h2>
+
+          <div className="flex flex-col md:flex-row md:items-center gap-2 mb-4">
+            <select className="p-2 border rounded w-full md:w-auto">
+              <option>10</option>
+            </select>
+            <button className="bg-teal-600 text-white px-4 py-2 rounded w-full md:w-auto">
+              Export Table Data
+            </button>
           </div>
 
-          <div className="p-4 bg-white rounded shadow-md">
-            <h2 className="text-lg font-semibold border-b pb-2 mb-4">Today Enquiry</h2>
+          <h2 className="text-lg font-semibold mb-2">Lead Details</h2>
 
-            <div className="flex flex-col md:flex-row md:items-center gap-2 mb-4">
-              <select className="p-2 border rounded w-full md:w-auto">
-                <option>10</option>
-              </select>
-              <button className="bg-teal-600 text-white px-4 py-2 rounded w-full md:w-auto">
-                Export Table Data
-              </button>
-            </div>
-
-            <h2 className="text-lg font-semibold mt-4 mb-2">Lead Details</h2>
-
-            <div className="overflow-x-auto">
-              <table className="w-full border border-gray-300 text-sm">
-                <thead className="bg-blue-100">
-                  <tr>
-                    <th className="border p-2"></th>
-                    <th className="border p-2 whitespace-nowrap">Name</th>
-                    <th className="border p-2 whitespace-nowrap">Email</th>
-                    <th className="border p-2 whitespace-nowrap">Mobile</th>
-                    <th className="border p-2 whitespace-nowrap">Source</th>
-                    <th className="border p-2 whitespace-nowrap">Assigned</th>
-                    <th className="border p-2 whitespace-nowrap">Status</th>
-                    <th className="border p-2 whitespace-nowrap">Action</th>
+          <div className="overflow-x-auto">
+            <table className="w-full border text-sm text-center">
+              <thead className="bg-blue-100">
+                <tr>
+                  <th className="border p-2"></th>
+                  <th className="border p-2">Name</th>
+                  <th className="border p-2">Email</th>
+                  <th className="border p-2">Mobile</th>
+                  <th className="border p-2">Source</th>
+                  <th className="border p-2">Assigned</th>
+                  <th className="border p-2">Status</th>
+                  <th className="border p-2">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {leads.map((lead, index) => (
+                  <tr key={index}>
+                    <td className="border p-2">
+                      <input type="checkbox" />
+                    </td>
+                    <td className="border p-2">{lead.name}</td>
+                    <td className="border p-2">{lead.email}</td>
+                    <td className="border p-2">{lead.mobile}</td>
+                    <td className="border p-2">{lead.source}</td>
+                    <td className="border p-2">{lead.assigned}</td>
+                    <td className="border p-2">{lead.status}</td>
+                    <td className="border p-2 space-x-2">
+                      <button onClick={() => handleEdit(index)} className="text-green-600"><FaEdit /></button>
+                      <button onClick={() => handleDelete(index)} className="text-red-600"><FaTrash /></button>
+                      <button className="text-blue-600"><FaEye /></button>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {leads.map((lead, index) => (
-                    <tr key={index} className="text-center">
-                      <td className="border p-2">
-                        <input type="checkbox" />
-                      </td>
-                      <td className="border p-2">{lead.name}</td>
-                      <td className="border p-2">{lead.email}</td>
-                      <td className="border p-2">{lead.mobile}</td>
-                      <td className="border p-2">{lead.source}</td>
-                      <td className="border p-2">{lead.assigned}</td>
-                      <td className="border p-2">{lead.status}</td>
-                      <td className="border p-2 space-x-2">
-                        <button onClick={() => handleEdit(index)} className="text-green-600"><FaEdit /></button>
-                        <button onClick={() => handleDelete(index)} className="text-red-600"><FaTrash /></button>
-                        <button className="text-blue-600"><FaEye /></button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-            <div className="flex flex-wrap gap-2 mt-4">
-              <button className="bg-green-600 text-white px-3 py-1 rounded">Preview</button>
-              {[1, 2, 3, 4].map(num => (
-                <button key={num} className="border px-3 py-1">{num}</button>
-              ))}
-              <button className="bg-teal-600 text-white px-3 py-1 rounded">Next</button>
-            </div>
+          {/* Pagination */}
+          <div className="flex flex-wrap gap-2 mt-4">
+            <button className="bg-green-600 text-white px-3 py-1 rounded">Preview</button>
+            {[1, 2, 3, 4].map(num => (
+              <button key={num} className="border px-3 py-1">{num}</button>
+            ))}
+            <button className="bg-teal-600 text-white px-3 py-1 rounded">Next</button>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

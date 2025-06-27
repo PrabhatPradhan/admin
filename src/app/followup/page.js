@@ -4,7 +4,7 @@ import Sidebar from "../../Components/Sidebar/Sidebar";
 import Navbar from "../../Components/Navbar/Navbar";
 import { FaTachometerAlt, FaEdit, FaTrash, FaEye } from "react-icons/fa";
 
-export default function page() {
+export default function Page() {
   const [leads, setLeads] = useState([
     { name: 'Ford', email: 'ford@info.net', mobile: '9170425365', source: 'Phone', assigned: 'User 1', status: 'Follow up' },
     { name: 'LG', email: 'lg@info.net', mobile: '9170425365', source: 'Marketing', assigned: 'User 2', status: 'DND' },
