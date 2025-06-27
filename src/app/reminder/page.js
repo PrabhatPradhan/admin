@@ -1,169 +1,133 @@
 "use client";
+
 import React, { useState } from "react";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Navbar from "../../Components/Navbar/Navbar";
-import { FaTachometerAlt, FaPlus, FaEdit, FaTrash, FaEye, FaBars } from "react-icons/fa";
+import {
+  FaTachometerAlt,
+  FaPlus,
+  FaUserPlus,
+  FaListAlt,
+  FaEdit,
+  FaTrash,
+  FaEye,
+} from "react-icons/fa";
+
+const leadsData = [
+  { name: "Ford", email: "ford@info.net", mobile: "9170425365", source: "Phone", assigned: "User 1", status: "Follow up" },
+  { name: "LG", email: "lg@info.net", mobile: "9170425365", source: "Marketing", assigned: "User 2", status: "DND" },
+  { name: "Toyota", email: "totyota@info.net", mobile: "9170425365", source: "google", assigned: "User 3", status: "Intrested" },
+  { name: "Mukesh Group", email: "mukesh@info.net", mobile: "9170425365", source: "Phone", assigned: "User 1", status: "Switch Off" },
+  { name: "Nicrosoft", email: "ms@info.net", mobile: "9170425365", source: "Facebook", assigned: "User 1", status: "Not Important" },
+];
 
 export default function Page() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(true);
+  const [leads, setLeads] = useState(leadsData);
+  const [showModal, setShowModal] = useState(false);
+  const [newLead, setNewLead] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+    source: "",
+    assigned: "",
+    status: "",
+  });
 
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewLead({ ...newLead, [name]: value });
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Reminder set!");
-    setIsModalOpen(false);
+  const handleAddLead = () => {
+    setLeads([...leads, newLead]);
+    setNewLead({ name: "", email: "", mobile: "", source: "", assigned: "", status: "" });
+    setShowModal(false);
   };
 
   return (
-    <>
-      <div className="flex h-screen overflow-hidden">
-        {/* Sidebar */}
-        <div className={`bg-gray-800 text-white ${showSidebar ? "w-64" : "w-0"} transition-all duration-300 hidden lg:block`}>
-          <Sidebar />
+    <div className="flex flex-col md:flex-row h-screen">
+      <div className="w-full md:w-64 bg-gray-800 text-white">
+        <Sidebar />
+      </div>
+      <div className="flex-1 overflow-y-auto bg-gray-100">
+        <Navbar />
+        <div className="bg-white px-4 sm:px-6 py-4 shadow-sm border-b flex items-center gap-4 flex-wrap">
+          <div className="text-teal-600 text-3xl sm:text-4xl">
+            <FaTachometerAlt />
+          </div>
+          <div>
+            <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">Leads</h1>
+            <p className="text-sm text-gray-600">Very detailed & featured admin.</p>
+          </div>
         </div>
 
-        {/* Main */}
-        <div className="flex-1 flex flex-col overflow-y-auto bg-gray-100">
-          {/* Navbar with toggle */}
-          <div className="flex items-center justify-between   bg-white shadow-md border-b">
-            <div className="lg:hidden">
-              <button onClick={() => setShowSidebar(!showSidebar)} className="text-2xl text-teal-600">
-                <FaBars />
+        <div className="p-4 sm:p-6 bg-gray-100 min-h-screen">
+          <div className="bg-white rounded shadow-md p-4 max-w-7xl mx-auto space-y-4">
+            <div className="flex flex-wrap gap-3">
+              <button
+                className="bg-teal-600 text-white px-4 py-2 rounded flex items-center gap-2"
+                onClick={() => setShowModal(true)}
+              >
+                <FaPlus /> Add new Lead
+              </button>
+              <button className="bg-teal-600 text-white px-4 py-2 rounded flex items-center gap-2">
+                <FaUserPlus /> Assign Lead
               </button>
             </div>
-            
-          </div>
-          <Navbar />
-          {/* Page Header */}
-          <div className="bg-white px-6 py-4 shadow-sm border-b flex items-center gap-4">
-            <div className="text-teal-600 text-3xl">
-              <FaTachometerAlt />
-            </div>
-            <div>
-              <h1 className="text-xl md:text-2xl font-semibold text-gray-800">CRM Admin Dashboard</h1>
-              <p className="text-sm text-gray-600">Very detailed & featured admin.</p>
-            </div>
-          </div>
 
-          {/* Main Content */}
-          <div className="p-4 sm:p-6 space-y-6">
-            {/* Set Reminder Button */}
-            <button
-              onClick={handleOpenModal}
-              className="bg-teal-600 text-white px-4 py-2 rounded flex items-center gap-2"
-            >
-              <FaPlus /> Set A Reminder
-            </button>
-
-            {/* Modal */}
-            {isModalOpen && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center  bg-opacity-30 px-4">
-                <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
-                  <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl font-semibold">Set a Reminder</h2>
-                    <button onClick={handleCloseModal} className="text-gray-500 hover:text-red-500 text-xl">
-                      &times;
-                    </button>
-                  </div>
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium mb-1">Title</label>
-                      <input
-                        type="text"
-                        className="w-full border px-3 py-2 rounded"
-                        placeholder="Enter title"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-1">Date</label>
-                      <input
-                        type="date"
-                        className="w-full border px-3 py-2 rounded"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-1">Notes</label>
-                      <textarea
-                        className="w-full border px-3 py-2 rounded"
-                        rows="3"
-                        placeholder="Enter notes"
-                      ></textarea>
-                    </div>
-                    <div className="flex justify-end gap-2">
-                      <button
-                        type="button"
-                        onClick={handleCloseModal}
-                        className="px-4 py-2 bg-gray-300 rounded"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="submit"
-                        className="px-4 py-2 bg-teal-600 text-white rounded"
-                      >
-                        Save Reminder
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            )}
-
-            {/* Filters */}
             <div className="bg-blue-100 border px-4 py-3 rounded shadow-sm">
               <h2 className="font-semibold text-lg mb-3">Filter By</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="flex flex-col">
-                  <label className="font-semibold text-sm mb-1">Created By</label>
-                  <select className="border px-3 py-1 rounded">
-                    <option>Created</option>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold mb-1">Assigned Lead</label>
+                  <select className="w-full border rounded px-3 py-1">
+                    <option>Assigned</option>
                   </select>
                 </div>
-                <div className="flex flex-col">
-                  <label className="font-semibold text-sm mb-1">From Date</label>
-                  <input
-                    type="text"
-                    className="border px-3 py-1 rounded"
-                    placeholder="From Date"
-                  />
+                
+                <div>
+                  <label className="block text-sm font-semibold mb-1">Start Date</label>
+                  <input type="text" className="w-full border rounded px-3 py-1" placeholder="Enter date" />
                 </div>
-                <div className="flex flex-col">
-                  <label className="font-semibold text-sm mb-1">To Date</label>
-                  <input
-                    type="text"
-                    className="border px-3 py-1 rounded"
-                    placeholder="To Date"
-                  />
+                <div>
+                  <label className="block text-sm font-semibold mb-1">End Date</label>
+                  <input type="text" className="w-full border rounded px-3 py-1" placeholder="Enter date" />
                 </div>
               </div>
+
+              
             </div>
 
-            {/* Table */}
             <div className="overflow-x-auto border rounded">
-              <div className="bg-blue-100 px-4 py-2 font-semibold">All Reminders</div>
-              <table className="min-w-full text-sm text-left">
+              <div className="bg-blue-100 px-4 py-2 font-semibold">Lead Details</div>
+              <table className="w-full text-sm text-left min-w-[640px]">
                 <thead className="bg-blue-50">
                   <tr>
-                    <th className="px-4 py-2 border">Date</th>
-                    <th className="px-4 py-2 border">Related</th>
-                    <th className="px-4 py-2 border">Created By</th>
-                    <th className="px-4 py-2 border">Remark</th>
+                    <th className="px-4 py-2 border">
+                      <input type="checkbox" />
+                    </th>
+                    <th className="px-4 py-2 border">Name</th>
+                    <th className="px-4 py-2 border">Email</th>
+                    <th className="px-4 py-2 border">Mobile</th>
+                    <th className="px-4 py-2 border">Source</th>
+                    <th className="px-4 py-2 border">Assigned</th>
+                    <th className="px-4 py-2 border">Status</th>
                     <th className="px-4 py-2 border">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {Array(6).fill(0).map((_, i) => (
-                    <tr key={i} className="bg-white">
-                      <td className="px-4 py-2 border">01-March-2023</td>
-                      <td className="px-4 py-2 border">Leads</td>
-                      <td className="px-4 py-2 border">User 1</td>
-                      <td className="px-4 py-2 border">Callback On 1st March</td>
-                      <td className="px-4 py-2 border flex gap-2">
+                  {leads.map((lead, index) => (
+                    <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                      <td className="px-4 py-2 border">
+                        <input type="checkbox" />
+                      </td>
+                      <td className="px-4 py-2 border">{lead.name}</td>
+                      <td className="px-4 py-2 border">{lead.email}</td>
+                      <td className="px-4 py-2 border">{lead.mobile}</td>
+                      <td className="px-4 py-2 border">{lead.source}</td>
+                      <td className="px-4 py-2 border">{lead.assigned}</td>
+                      <td className="px-4 py-2 border">{lead.status}</td>
+                      <td className="px-4 py-2 border flex gap-2 flex-wrap">
                         <button className="bg-teal-600 text-white p-2 rounded">
                           <FaEdit />
                         </button>
@@ -178,21 +142,42 @@ export default function Page() {
                   ))}
                 </tbody>
               </table>
-
-              {/* Pagination */}
-              <div className="flex flex-wrap items-center gap-2 p-4">
-                <button className="bg-teal-600 text-white px-3 py-1 rounded">Previous</button>
-                {[1, 2, 3, 4].map((n) => (
-                  <button key={n} className="border px-3 py-1 rounded">
-                    {n}
-                  </button>
-                ))}
+              <div className="flex flex-wrap justify-center gap-2 p-4">
+                <button className="bg-teal-600 text-white px-3 py-1 rounded">Prev</button>
+                <button className="border px-3 py-1 rounded">1</button>
+                <button className="border px-3 py-1 rounded">2</button>
+                <button className="border px-3 py-1 rounded">3</button>
                 <button className="bg-teal-600 text-white px-3 py-1 rounded">Next</button>
               </div>
             </div>
           </div>
         </div>
+
+        {showModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 px-4">
+            <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-lg space-y-4">
+              <h2 className="text-xl font-bold mb-4">Add New Lead</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {["name", "email", "mobile", "source", "assigned", "status"].map((field) => (
+                  <input
+                    key={field}
+                    type="text"
+                    name={field}
+                    placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                    className="border p-2 rounded"
+                    value={newLead[field]}
+                    onChange={handleChange}
+                  />
+                ))}
+              </div>
+              <div className="flex justify-end gap-2">
+                <button className="bg-gray-300 px-4 py-2 rounded" onClick={() => setShowModal(false)}>Cancel</button>
+                <button className="bg-teal-600 text-white px-4 py-2 rounded" onClick={handleAddLead}>Add Lead</button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }

@@ -122,6 +122,7 @@ export default function Sidebar() {
           <Link href="/reminder" className="flex items-center gap-2 hover:text-white">
             <FaClipboardList /> Reminder
           </Link>
+         
 
           <Link href="#" className="flex items-center gap-2 text-red-500 hover:text-red-400">
             <FaSignOutAlt /> Logout
