@@ -7,7 +7,7 @@ import { FaBell, FaClipboardList } from "react-icons/fa";
 import Dashboard from "@/Components/Dashboard/Dashboard";
 import { FaTachometerAlt } from "react-icons/fa";
 import Sidebar from "@/Components/Sidebar/Sidebar";
-
+import Navbar from "../Components/Navbar/Navbar"
 export default function Page() {
   return (
     <>
@@ -19,7 +19,7 @@ export default function Page() {
         {/* Main Content */}
         <main className="flex-1 bg-gray-100 overflow-y-auto">
           {/* Header */}
-          <header className="bg-[#2f3d56] text-white flex justify-between items-center px-6 py-4">
+          {/* <header className="bg-[#2f3d56] text-white flex justify-between items-center px-6 py-4">
             <h1 className="text-xl font-semibold">CRM Admin Dashboard</h1>
             <div className="flex items-center gap-6">
               <FaClipboardList className="w-5 h-5" />
@@ -35,7 +35,9 @@ export default function Page() {
                 className="w-10 h-10 rounded-full border-2 border-white"
               />
             </div>
-          </header>
+          </header> */}
+
+          <Navbar/>
 
           <div className="bg-white px-6 py-4 shadow-sm border-b flex items-center gap-4">
             {/* Icon */}

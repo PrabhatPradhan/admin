@@ -10,75 +10,74 @@ import {
 export default function Dashboard() {
   return (
     <div>
-      <div className="flex h-screen">
-        <main className="flex-1 bg-gray-100 ">
-          {/* Header */}
-
+      <div className="flex flex-col lg:flex-row min-h-screen">
+        <main className="flex-1 bg-gray-100">
           {/* Dashboard Cards */}
-          <section className="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <section className="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {/* Total Enquiry */}
-            <div className="bg-teal-600 text-white p-6 rounded-md shadow-md flex items-center justify-between hover:bg-black transition">
-              <div className="flex flex-col gap-4">
-                <FaUser className="text-4xl" />
-                <div className="text-lg font-medium">Total Enquiry</div>
+            <div className="bg-teal-600 text-white p-4 sm:p-6 rounded-md shadow-md flex items-center justify-between hover:bg-black transition">
+              <div className="flex flex-col gap-2 sm:gap-4">
+                <FaUser className="text-2xl sm:text-4xl" />
+                <div className="text-base sm:text-lg font-medium">Total Enquiry</div>
               </div>
-              <div className="text-right text-xl font-bold">11▲</div>
+              <div className="text-right text-lg sm:text-xl font-bold">11▲</div>
             </div>
 
             {/* Today Enquiry */}
-            <div className="bg-teal-600 text-white p-6 rounded-md shadow-md flex items-center justify-between hover:bg-black transition">
-              <div className="flex flex-col gap-4">
-                <FaUser className="text-4xl" />
-                <div className="text-lg font-medium">Today Enquiry</div>
+            <div className="bg-teal-600 text-white p-4 sm:p-6 rounded-md shadow-md flex items-center justify-between hover:bg-black transition">
+              <div className="flex flex-col gap-2 sm:gap-4">
+                <FaUser className="text-2xl sm:text-4xl" />
+                <div className="text-base sm:text-lg font-medium">Today Enquiry</div>
               </div>
-              <div className="text-right text-xl font-bold">4▲</div>
+              <div className="text-right text-lg sm:text-xl font-bold">4▲</div>
             </div>
 
             {/* Follow up */}
-            <div className="bg-teal-600 text-white p-6 rounded-md shadow-md flex items-center justify-between hover:bg-black transition">
-              <div className="flex flex-col gap-4">
-                <FaUserPlus className="text-4xl" />
-                <div className="text-lg font-medium">Follow up</div>
+            <div className="bg-teal-600 text-white p-4 sm:p-6 rounded-md shadow-md flex items-center justify-between hover:bg-black transition">
+              <div className="flex flex-col gap-2 sm:gap-4">
+                <FaUserPlus className="text-2xl sm:text-4xl" />
+                <div className="text-base sm:text-lg font-medium">Follow up</div>
               </div>
-              <div className="text-right text-xl font-bold">965▲</div>
+              <div className="text-right text-lg sm:text-xl font-bold">965▲</div>
             </div>
 
             {/* Confirmed */}
-            <div className="bg-teal-600 text-white p-6 rounded-md shadow-md flex items-center justify-between hover:bg-black transition">
-              <div className="flex flex-col gap-4">
-                <FaCheckCircle className="text-4xl" />
-                <div className="text-lg font-medium">Confirmed</div>
+            <div className="bg-teal-600 text-white p-4 sm:p-6 rounded-md shadow-md flex items-center justify-between hover:bg-black transition">
+              <div className="flex flex-col gap-2 sm:gap-4">
+                <FaCheckCircle className="text-2xl sm:text-4xl" />
+                <div className="text-base sm:text-lg font-medium">Confirmed</div>
               </div>
-              <div className="text-right text-xl font-bold">11▲</div>
+              <div className="text-right text-lg sm:text-xl font-bold">11▲</div>
             </div>
 
             {/* Not Installed */}
-            <div className="bg-teal-600 text-white p-6 rounded-md shadow-md flex items-center justify-between hover:bg-black transition">
-              <div className="flex flex-col gap-4">
-                <FaTimesCircle className="text-4xl" />
-                <div className="text-lg font-medium">Not Installed</div>
+            <div className="bg-teal-600 text-white p-4 sm:p-6 rounded-md shadow-md flex items-center justify-between hover:bg-black transition">
+              <div className="flex flex-col gap-2 sm:gap-4">
+                <FaTimesCircle className="text-2xl sm:text-4xl" />
+                <div className="text-base sm:text-lg font-medium">Not Installed</div>
               </div>
-              <div className="text-right text-xl font-bold">11▲</div>
+              <div className="text-right text-lg sm:text-xl font-bold">11▲</div>
             </div>
 
             {/* Switch off */}
-            <div className="bg-teal-600 text-white p-6 rounded-md shadow-md flex items-center justify-between hover:bg-black transition">
-              <div className="flex flex-col gap-4">
-                <FaPowerOff className="text-4xl" />
-                <div className="text-lg font-medium">Switch off</div>
+            <div className="bg-teal-600 text-white p-4 sm:p-6 rounded-md shadow-md flex items-center justify-between hover:bg-black transition">
+              <div className="flex flex-col gap-2 sm:gap-4">
+                <FaPowerOff className="text-2xl sm:text-4xl" />
+                <div className="text-base sm:text-lg font-medium">Switch off</div>
               </div>
-              <div className="text-right text-xl font-bold">11▲</div>
+              <div className="text-right text-lg sm:text-xl font-bold">11▲</div>
             </div>
           </section>
-          <div className="min-h-screen bg-gray-100 p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          {/* Tables Section */}
+          <div className="min-h-screen bg-gray-100 p-4 sm:p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {/* Works Announcements */}
-              <div className="bg-white rounded shadow overflow-hidden">
+              <div className="bg-white rounded shadow overflow-x-auto">
                 <div className="bg-blue-100 px-4 py-3 font-semibold flex justify-between items-center">
                   <span>Works Announcements</span>
-                   
                 </div>
-                <table className="w-full text-left">
+                <table className="w-full text-left text-sm sm:text-base">
                   <thead>
                     <tr className="border-b">
                       <th className="px-4 py-2">Works Type</th>
@@ -111,12 +110,11 @@ export default function Dashboard() {
               </div>
 
               {/* Notice Board */}
-              <div className="bg-white rounded shadow overflow-hidden">
+              <div className="bg-white rounded shadow overflow-x-auto">
                 <div className="bg-blue-100 px-4 py-3 font-semibold flex justify-between items-center">
                   <span>Notice Board</span>
-                  
                 </div>
-                <table className="w-full text-left">
+                <table className="w-full text-left text-sm sm:text-base">
                   <thead>
                     <tr className="border-b">
                       <th className="px-4 py-2">Notice</th>
@@ -156,8 +154,8 @@ export default function Dashboard() {
             </div>
 
             {/* Footer */}
-            <footer className="text-center mt-10 text-gray-600">
-              <p className="text-sm">
+            <footer className="text-center mt-10 text-gray-600 px-4">
+              <p className="text-xs sm:text-sm">
                 <strong>
                   Copyright © 2016-2017{" "}
                   <span className="text-teal-600">Webideainfotech</span>
