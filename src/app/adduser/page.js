@@ -6,12 +6,7 @@ import Navbar from "../../Components/Navbar/Navbar";
 import { FaTachometerAlt } from "react-icons/fa";
 import {
   FaListAlt,
-  FaEdit,
-  FaCrosshairs,
-  FaSyncAlt,
-  FaArrowUp,
-  FaExpand,
-  FaTimes,
+   
 } from "react-icons/fa";
 import Link from "next/link";
 

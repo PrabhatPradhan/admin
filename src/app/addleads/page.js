@@ -7,7 +7,6 @@ import {
   FaTachometerAlt,
   FaPlus,
   FaUserPlus,
-  FaListAlt,
   FaEdit,
   FaTrash,
   FaEye,
