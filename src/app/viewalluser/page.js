@@ -164,7 +164,7 @@ export default function Page() {
 
       {/* POPUP Modal */}
       {popupContent && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 p-4">
+        <div className="fixed inset-0   bg-opacity-40 flex justify-center items-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 shadow-xl w-full max-w-md text-center">
             <p className="text-lg font-semibold mb-4">{popupContent}</p>
             <button onClick={closePopup} className="bg-red-600 text-white px-4 py-2 rounded mt-4">

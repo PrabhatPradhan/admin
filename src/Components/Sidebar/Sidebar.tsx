@@ -37,7 +37,7 @@ export default function Sidebar() {
           <Image
             src={logo}
             alt="Logo"
-            className="h-10 ml-10"
+            className="  ml-10"
           />
         </div>
 
@@ -103,7 +103,7 @@ export default function Sidebar() {
                 <Link href="/totalenquiry" className="hover:text-white">
                   Total Enquiry
                 </Link>
-                <Link href="/lodayenquiry" className="hover:text-white">
+                <Link href="/todayenquiry" className="hover:text-white">
                   Today Enquiry
                 </Link>
                 <Link href="/followup" className="hover:text-white">
@@ -124,7 +124,7 @@ export default function Sidebar() {
           </Link>
          
 
-          <Link href="#" className="flex items-center gap-2 text-red-500 hover:text-red-400">
+          <Link href="/logout" className="flex items-center gap-2 text-red-500 hover:text-red-400">
             <FaSignOutAlt /> Logout
           </Link>
         </nav>

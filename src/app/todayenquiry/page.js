@@ -51,10 +51,7 @@ export default function Page() {
   const [leads, setLeads] = useState(initialLeads);
   const [showModal, setShowModal] = useState(false);
   const [editingLead, setEditingLead] = useState(null);
-  const [showNoteModal, setShowNoteModal] = useState(false);
-  const [noteDate, setNoteDate] = useState('');
-  const [noteText, setNoteText] = useState('');
-  
+
   const handleDelete = (index) => {
     const confirmDelete = window.confirm(
       `Are you sure you want to delete lead: ${leads[index].name}?`
@@ -69,13 +66,12 @@ export default function Page() {
     setEditingLead(leads[index]);
     setShowModal(true);
   };
-  const handleViewNote = () => {
-    const today = new Date();
-    const formattedDate = today.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-    setNoteDate(formattedDate);
-    setShowNoteModal(true);
-  };
-  
+  const [showNoteModal, setShowNoteModal] = useState(false);
+  const [selectedLeadIndex, setSelectedLeadIndex] = useState(null);
+  const [note, setNote] = useState("");
+ 
+
+
   return (
     <>
       <div className="flex flex-col md:flex-row h-screen">
@@ -91,9 +87,9 @@ export default function Page() {
             </div>
             <div>
               <h1 className="text-2xl font-semibold text-gray-800">
-                Total Enquiry
+                Today Enquiry
               </h1>
-              <p className="text-sm text-gray-600">Enquiry Lists</p>
+              <p className="text-sm text-gray-600">Today Enquiry List</p>
             </div>
           </div>
 
@@ -101,37 +97,6 @@ export default function Page() {
             <h2 className="text-lg font-semibold border-b pb-2 mb-4">
               Filter By
             </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-              <div>
-                <label className="block mb-1 text-sm font-medium">
-                  Assigned Lead
-                </label>
-                <select className="w-full p-2 border rounded">
-                  <option>Assigned</option>
-                </select>
-              </div>
-              <div>
-                <label className="block mb-1 text-sm font-medium">
-                  Lead Source
-                </label>
-                <select className="w-full p-2 border rounded">
-                  <option>Facebook</option>
-                </select>
-              </div>
-              <div>
-                <label className="block mb-1 text-sm font-medium">
-                  Start Date
-                </label>
-                <input type="date" className="w-full p-2 border rounded" />
-              </div>
-              <div>
-                <label className="block mb-1 text-sm font-medium">
-                  End Date
-                </label>
-                <input type="date" className="w-full p-2 border rounded" />
-              </div>
-            </div>
 
             <div className="flex flex-wrap items-center gap-4 mb-4">
               <select className="p-2 border rounded">
@@ -184,7 +149,10 @@ export default function Page() {
                           <FaTrash />
                         </button>
                         <button
-                          onClick={handleViewNote}
+                          onClick={() => {
+                            setSelectedLeadIndex(index);
+                            setShowNoteModal(true);
+                          }}
                           className="text-blue-600"
                         >
                           <FaEye />
@@ -211,6 +179,81 @@ export default function Page() {
           </div>
         </div>
       </div>
+      {showNoteModal && selectedLeadIndex !== null && (
+        <div className="fixed inset-0   bg-opacity-40 flex items-center justify-center z-50">
+          <div
+            className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md transform transition duration-300 ease-out translate-y-0 opacity-100"
+            style={{
+              transform: "translateY(0px)",
+              animation: "slideDown 0.4s ease-out forwards",
+            }}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-blue-900 flex items-center gap-2">
+                📈 Leads Note
+              </h2>
+              <button
+                onClick={() => setShowNoteModal(false)}
+                className="text-gray-600 text-xl"
+              >
+                &times;
+              </button>
+            </div>
+
+            <div className="text-sm text-gray-700 mb-2">
+              📅 {new Date().toLocaleDateString("en-GB")}
+            </div>
+
+            <p className="text-gray-600 mb-2">
+              Write some notes about this lead
+            </p>
+
+            <textarea
+              rows={4}
+              placeholder="Write Your Note"
+              className="w-full border border-gray-300 rounded p-2 mb-4 resize-none"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+            />
+
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => {
+                  console.log("Saved note:", note);
+                  setShowNoteModal(false);
+                  setNote("");
+                }}
+                className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700"
+              >
+                Save
+              </button>
+              <button
+                onClick={() => setShowNoteModal(false)}
+                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+
+          {/* Inline keyframes using style tag for animation */}
+          <style>
+            {`
+        @keyframes slideDown {
+          from {
+            transform: translateY(-40px);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0px);
+            opacity: 1;
+          }
+        }
+      `}
+          </style>
+        </div>
+      )}
+
       {showModal && editingLead && (
         <div className="fixed inset-0   bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded shadow-md p-6 w-full max-w-xl">
@@ -321,36 +364,80 @@ export default function Page() {
           </div>
         </div>
       )}
-      {showNoteModal && (
-  <div className="fixed inset-0   bg-opacity-50 flex items-center justify-center z-50">
-    <div className="bg-white rounded shadow-md p-6 w-full max-w-md">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold flex items-center space-x-2">
-          <span>📈</span>
-          <span>Leads Note</span>
-        </h2>
-        <button onClick={() => setShowNoteModal(false)} className="text-gray-500 text-xl">&times;</button>
-      </div>
+      {showNoteModal && selectedLeadIndex !== null && (
+        <div className="fixed inset-0   bg-opacity-40 flex items-center justify-center z-50">
+          <div
+            className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md transform transition duration-300 ease-out translate-y-0 opacity-100"
+            style={{
+              transform: "translateY(0px)",
+              animation: "slideDown 0.4s ease-out forwards",
+            }}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-blue-900 flex items-center gap-2">
+                📈 Leads Note
+              </h2>
+              <button
+                onClick={() => setShowNoteModal(false)}
+                className="text-gray-600 text-xl"
+              >
+                &times;
+              </button>
+            </div>
 
-      <p className="text-sm text-gray-600 mb-2">📅 {noteDate}</p>
-      <p className="mb-2">Write some notes about this leads</p>
+            <div className="text-sm text-gray-700 mb-2">
+              📅 {new Date().toLocaleDateString("en-GB")}
+            </div>
 
-      <textarea
-        placeholder="Write Your Note"
-        value={noteText}
-        onChange={(e) => setNoteText(e.target.value)}
-        className="w-full border p-2 rounded mb-4"
-        rows={4}
-      />
+            <p className="text-gray-600 mb-2">
+              Write some notes about this lead
+            </p>
 
-      <div className="flex justify-end space-x-2">
-        <button className="bg-green-600 text-white px-4 py-2 rounded">Save</button>
-        <button onClick={() => setShowNoteModal(false)} className="bg-red-600 text-white px-4 py-2 rounded">Close</button>
-      </div>
-    </div>
-  </div>
-)}
+            <textarea
+              rows={4}
+              placeholder="Write Your Note"
+              className="w-full border border-gray-300 rounded p-2 mb-4 resize-none"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+            />
 
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => {
+                  console.log("Saved note:", note);
+                  setShowNoteModal(false);
+                  setNote("");
+                }}
+                className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700"
+              >
+                Save
+              </button>
+              <button
+                onClick={() => setShowNoteModal(false)}
+                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+
+          {/* Inline keyframes using style tag for animation */}
+          <style>
+            {`
+        @keyframes slideDown {
+          from {
+            transform: translateY(-40px);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0px);
+            opacity: 1;
+          }
+        }
+      `}
+          </style>
+        </div>
+      )}
     </>
   );
 }

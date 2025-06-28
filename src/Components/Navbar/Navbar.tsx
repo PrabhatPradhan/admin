@@ -48,7 +48,7 @@ export default function Navbar() {
     "Add more admin...",
     "Add more clients and order",
     "New updates available!",
-    "Don't forget to review reports",
+     
   ];
 
   useEffect(() => {
@@ -82,7 +82,7 @@ export default function Navbar() {
             </button>
 
             {showNotifications && (
-              <div className="absolute right-0 mt-2 w-64 sm:w-72 h-64 sm:h-72 text-black bg-green-100 border border-green-300 overflow-y-auto shadow-lg rounded-lg z-50">
+              <div className="absolute right-0 mt-2 w-64 sm:w-72 h-60 sm:h-72 text-black bg-green-100 border border-green-300 overflow-y-auto shadow-lg rounded-lg z-50">
                 {notifications.map((note, index) => (
                   <div
                     key={index}
@@ -126,7 +126,7 @@ export default function Navbar() {
 
       {/* Popup Modal for Reminder */}
       {showPopup && (
-        <div className="fixed inset-0 flex items-center justify-center px-2 sm:px-0 z-50 bg-black bg-opacity-30">
+        <div className="fixed inset-0 flex   justify-center  px-2 sm:px-0 z-50   bg-opacity-30">
           <div className="bg-white rounded shadow-lg w-full max-w-md sm:max-w-lg p-4 sm:p-6 relative">
             <div className="flex justify-between items-center border-b pb-3 mb-4">
               <h2 className="text-lg font-semibold flex items-center gap-2">

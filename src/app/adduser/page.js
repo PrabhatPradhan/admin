@@ -56,14 +56,7 @@ export default function page() {
                     <FaListAlt /> Users List
                   </button>
                 </Link>
-                <div className="flex gap-2 sm:gap-3 text-gray-700 text-sm items-center flex-wrap">
-                  <FaEdit className="cursor-pointer" />
-                  <FaCrosshairs className="cursor-pointer" />
-                  <FaSyncAlt className="cursor-pointer" />
-                  <FaArrowUp className="cursor-pointer" />
-                  <FaExpand className="cursor-pointer" />
-                  <FaTimes className="cursor-pointer" />
-                </div>
+                
               </div>
 
               {/* Form */}

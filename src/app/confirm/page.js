@@ -1,4 +1,5 @@
-"use client";
+ 
+"use client"
 import React, { useState } from "react";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Navbar from "../../Components/Navbar/Navbar";
@@ -14,11 +15,13 @@ const initialLeads = [
 
 export default function Page() {
   const [leads, setLeads] = useState(initialLeads);
+  const [showModal, setShowModal] = useState(false);
+  const [editingLead, setEditingLead] = useState(null);
+  const [showNoteModal, setShowNoteModal] = useState(false);
+const [noteDate, setNoteDate] = useState('');
+const [noteText, setNoteText] = useState('');
 
-  const handleEdit = (index) => {
-    const lead = leads[index];
-    alert(`Edit lead: ${lead.name}`);
-  };
+ 
 
   const handleDelete = (index) => {
     const confirmDelete = window.confirm(`Are you sure you want to delete lead: ${leads[index].name}?`);
@@ -28,33 +31,43 @@ export default function Page() {
     }
   };
 
+  const handleEdit = (index) => {
+    setEditingLead(leads[index]);
+    setShowModal(true);
+  };
+  const handleViewNote = () => {
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    setNoteDate(formattedDate);
+    setShowNoteModal(true);
+  };
+  
+
   return (
     <>
       <div className="flex flex-col md:flex-row h-screen">
-        {/* Sidebar */}
         <div className="w-full md:w-64 bg-gray-800 text-white">
           <Sidebar />
         </div>
 
-        {/* Main Content */}
         <div className="flex-1 overflow-y-auto bg-gray-100">
           <Navbar />
-
-          <div className="bg-white px-6 py-4 shadow-sm border-b flex items-center gap-4 flex-wrap">
+          <div className="bg-white px-4 md:px-6 py-4 shadow-sm border-b flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div className="text-teal-600 text-4xl">
               <FaTachometerAlt />
             </div>
             <div>
-              <h1 className="text-2xl font-semibold text-gray-800">Leads</h1>
-              <p className="text-sm text-gray-600">Very detailed &amp; featured admin.</p>
+              <h1 className="text-2xl font-semibold text-gray-800">
+Confirm Leads
+</h1>
+              <p className="text-sm text-gray-600">Leads List</p>
             </div>
           </div>
 
-          <div className="p-4 bg-white rounded shadow-md mx-2 sm:mx-4">
+          <div className="p-4 md:p-6 bg-white rounded shadow-md">
             <h2 className="text-lg font-semibold border-b pb-2 mb-4">Filter By</h2>
 
-            {/* Filters */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
               <div>
                 <label className="block mb-1 text-sm font-medium">Assigned Lead</label>
                 <select className="w-full p-2 border rounded">
@@ -77,19 +90,17 @@ export default function Page() {
               </div>
             </div>
 
-            {/* Actions */}
-            <div className="flex flex-wrap gap-4 items-center mb-4">
+            <div className="flex flex-wrap items-center gap-4 mb-4">
               <select className="p-2 border rounded">
                 <option>10</option>
               </select>
               <button className="bg-teal-600 text-white px-4 py-2 rounded">Export Table Data</button>
-              <button className="bg-teal-600 text-white px-4 py-2 rounded">Import Table Data</button>
             </div>
 
-            {/* Table */}
             <h2 className="text-lg font-semibold mt-4 mb-2">Lead Details</h2>
+
             <div className="overflow-x-auto">
-              <table className="min-w-full border border-gray-300 text-sm">
+              <table className="w-full border border-gray-300 text-sm">
                 <thead className="bg-blue-100">
                   <tr>
                     <th className="border p-2"></th>
@@ -121,7 +132,10 @@ export default function Page() {
                         <button onClick={() => handleDelete(index)} className="text-red-600">
                           <FaTrash />
                         </button>
-                        <button className="text-blue-600"><FaEye /></button>
+                        <button onClick={handleViewNote} className="text-blue-600">
+  <FaEye />
+</button>
+
                       </td>
                     </tr>
                   ))}
@@ -129,7 +143,6 @@ export default function Page() {
               </table>
             </div>
 
-            {/* Pagination */}
             <div className="flex flex-wrap items-center justify-start space-x-2 mt-4">
               <button className="bg-green-600 text-white px-3 py-1 rounded">Preview</button>
               <button className="border px-3 py-1">1</button>
@@ -141,6 +154,102 @@ export default function Page() {
           </div>
         </div>
       </div>
+      {showModal && editingLead && (
+  <div className="fixed inset-0   bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white rounded shadow-md p-6 w-full max-w-xl">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold">Update Leads</h2>
+        <button onClick={() => setShowModal(false)} className="text-gray-500 text-xl">&times;</button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium mb-1">Name</label>
+          <input type="text" defaultValue={editingLead.name} className="w-full border p-2 rounded" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Email id</label>
+          <input type="email" defaultValue={editingLead.email} className="w-full border p-2 rounded" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Phone No</label>
+          <input type="text" defaultValue={editingLead.mobile} className="w-full border p-2 rounded" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">State</label>
+          <input type="text" className="w-full border p-2 rounded" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Lead Source</label>
+          <select className="w-full border p-2 rounded" defaultValue={editingLead.source}>
+            <option>Phone Call</option>
+            <option>Marketing</option>
+            <option>Google</option>
+            <option>Facebook</option>
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Assign Lead</label>
+          <select className="w-full border p-2 rounded" defaultValue={editingLead.assigned}>
+            <option>User 1</option>
+            <option>User 2</option>
+            <option>User 3</option>
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Lead Status</label>
+          <select className="w-full border p-2 rounded" defaultValue={editingLead.status}>
+            <option>Follow up</option>
+            <option>DND</option>
+            <option>Interested</option>
+            <option>Switch Off</option>
+            <option>Not Important</option>
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Tour Details</label>
+          <textarea className="w-full border p-2 rounded"></textarea>
+        </div>
+      </div>
+
+      <div className="flex justify-end mt-4 space-x-2">
+        <button onClick={() => setShowModal(false)} className="bg-red-600 text-white px-4 py-2 rounded">Close</button>
+        <button className="bg-green-600 text-white px-4 py-2 rounded">Save</button>
+      </div>
+    </div>
+  </div>
+)}
+
+{showNoteModal && (
+  <div className="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white rounded shadow-md p-6 w-full max-w-md">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold flex items-center space-x-2">
+          <span>📈</span>
+          <span>Leads Note</span>
+        </h2>
+        <button onClick={() => setShowNoteModal(false)} className="text-gray-500 text-xl">&times;</button>
+      </div>
+
+      <p className="text-sm text-gray-600 mb-2">📅 {noteDate}</p>
+      <p className="mb-2">Write some notes about this leads</p>
+
+      <textarea
+        placeholder="Write Your Note"
+        value={noteText}
+        onChange={(e) => setNoteText(e.target.value)}
+        className="w-full border p-2 rounded mb-4"
+        rows={4}
+      />
+
+      <div className="flex justify-end space-x-2">
+        <button className="bg-green-600 text-white px-4 py-2 rounded">Save</button>
+        <button onClick={() => setShowNoteModal(false)} className="bg-red-600 text-white px-4 py-2 rounded">Close</button>
+      </div>
+    </div>
+  </div>
+)}
+
     </>
   );
 }

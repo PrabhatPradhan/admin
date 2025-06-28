@@ -1,140 +1,190 @@
 "use client";
-
 import React, { useState } from "react";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Navbar from "../../Components/Navbar/Navbar";
 import {
   FaTachometerAlt,
-  FaPlus,
-  FaUserPlus,
-   
   FaEdit,
   FaTrash,
   FaEye,
+  FaPlus,
 } from "react-icons/fa";
 
-const leadsData = [
-  { name: "Ford", email: "ford@info.net", mobile: "9170425365", source: "Phone", assigned: "User 1", status: "Follow up" },
-  { name: "LG", email: "lg@info.net", mobile: "9170425365", source: "Marketing", assigned: "User 2", status: "DND" },
-  { name: "Toyota", email: "totyota@info.net", mobile: "9170425365", source: "google", assigned: "User 3", status: "Intrested" },
-  { name: "Mukesh Group", email: "mukesh@info.net", mobile: "9170425365", source: "Phone", assigned: "User 1", status: "Switch Off" },
-  { name: "Nicrosoft", email: "ms@info.net", mobile: "9170425365", source: "Facebook", assigned: "User 1", status: "Not Important" },
+const initialLeads = [
+  {
+    name: "Ford",
+    email: "ford@info.net",
+    mobile: "9170425365",
+    source: "Phone",
+    assigned: "User 1",
+    status: "Follow up",
+  },
+  {
+    name: "LG",
+    email: "lg@info.net",
+    mobile: "9170425365",
+    source: "Marketing",
+    assigned: "User 2",
+    status: "DND",
+  },
+  {
+    name: "Toyota",
+    email: "totyota@info.net",
+    mobile: "9170425365",
+    source: "google",
+    assigned: "User 3",
+    status: "Intrested",
+  },
+  {
+    name: "Mukesh Group",
+    email: "mukesh@info.net",
+    mobile: "9170425365",
+    source: "Phone",
+    assigned: "User 1",
+    status: "Switch Off",
+  },
+  {
+    name: "Nicrosoft",
+    email: "ms@info.net",
+    mobile: "9170425365",
+    source: "Facebook",
+    assigned: "User 1",
+    status: "Not Important",
+  },
 ];
 
 export default function Page() {
-  const [leads, setLeads] = useState(leadsData);
+  const [leads, setLeads] = useState(initialLeads);
   const [showModal, setShowModal] = useState(false);
-  const [newLead, setNewLead] = useState({
-    name: "",
-    email: "",
-    mobile: "",
-    source: "",
-    assigned: "",
-    status: "",
-  });
+  const [editingLead, setEditingLead] = useState(null);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewLead({ ...newLead, [name]: value });
+  const [showNoteModal, setShowNoteModal] = useState(false);
+  const [noteDate, setNoteDate] = useState("");
+  const [noteText, setNoteText] = useState("");
+
+  const handleDelete = (index) => {
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete lead: ${leads[index].name}?`
+    );
+    if (confirmDelete) {
+      const updatedLeads = leads.filter((_, i) => i !== index);
+      setLeads(updatedLeads);
+    }
   };
 
-  const handleAddLead = () => {
-    setLeads([...leads, newLead]);
-    setNewLead({ name: "", email: "", mobile: "", source: "", assigned: "", status: "" });
-    setShowModal(false);
+  const handleEdit = (index) => {
+    setEditingLead(leads[index]);
+    setShowModal(true);
+  };
+  const handleViewNote = () => {
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+    setNoteDate(formattedDate);
+    setShowNoteModal(true);
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen">
-      <div className="w-full md:w-64 bg-gray-800 text-white">
-        <Sidebar />
-      </div>
-      <div className="flex-1 overflow-y-auto bg-gray-100">
-        <Navbar />
-        <div className="bg-white px-4 sm:px-6 py-4 shadow-sm border-b flex items-center gap-4 flex-wrap">
-          <div className="text-teal-600 text-3xl sm:text-4xl">
-            <FaTachometerAlt />
-          </div>
-          <div>
-            <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">Leads</h1>
-            <p className="text-sm text-gray-600">Very detailed & featured admin.</p>
-          </div>
+    <>
+      <div className="flex flex-col md:flex-row h-screen">
+        <div className="w-full md:w-64 bg-gray-800 text-white">
+          <Sidebar />
         </div>
 
-        <div className="p-4 sm:p-6 bg-gray-100 min-h-screen">
-          <div className="bg-white rounded shadow-md p-4 max-w-7xl mx-auto space-y-4">
-            <div className="flex flex-wrap gap-3">
-              <button
-                className="bg-teal-600 text-white px-4 py-2 rounded flex items-center gap-2"
-                onClick={() => setShowModal(true)}
-              >
-                <FaPlus /> Add new Lead
-              </button>
-              <button className="bg-teal-600 text-white px-4 py-2 rounded flex items-center gap-2">
-                <FaUserPlus /> Assign Lead
-              </button>
+        <div className="flex-1 overflow-y-auto bg-gray-100">
+          <Navbar />
+          <div className="bg-white px-4 md:px-6 py-4 shadow-sm border-b flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="text-teal-600 text-4xl">
+              <FaTachometerAlt />
             </div>
+            <div>
+              <h1 className="text-2xl font-semibold text-gray-800">Reminder</h1>
+              <p className="text-sm text-gray-600">Reminder List.</p>
+            </div>
+          </div>
 
-            <div className="bg-blue-100 border px-4 py-3 rounded shadow-sm">
-              <h2 className="font-semibold text-lg mb-3">Filter By</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold mb-1">Assigned Lead</label>
-                  <select className="w-full border rounded px-3 py-1">
-                    <option>Assigned</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-semibold mb-1">Start Date</label>
-                  <input type="text" className="w-full border rounded px-3 py-1" placeholder="Enter date" />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold mb-1">End Date</label>
-                  <input type="text" className="w-full border rounded px-3 py-1" placeholder="Enter date" />
-                </div>
+          <div className="p-4 md:p-6 bg-white rounded shadow-md">
+            <button className="bg-teal-600 text-white px-4 py-2  mb-4 rounded flex items-center gap-2">
+              <FaPlus /> Add Lead Status
+            </button>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+              <div>
+                <label className="block mb-1 text-sm font-medium">
+                  Lead Source
+                </label>
+                <select className="w-full p-2 border rounded">
+                  <option>Facebook</option>
+                </select>
               </div>
-
-              
+              <div>
+                <label className="block mb-1 text-sm font-medium">
+                  Start Date
+                </label>
+                <input type="date" className="w-full p-2 border rounded" />
+              </div>
+              <div>
+                <label className="block mb-1 text-sm font-medium">
+                  End Date
+                </label>
+                <input type="date" className="w-full p-2 border rounded" />
+              </div>
             </div>
 
-            <div className="overflow-x-auto border rounded">
-              <div className="bg-blue-100 px-4 py-2 font-semibold">Lead Details</div>
-              <table className="w-full text-sm text-left min-w-[640px]">
-                <thead className="bg-blue-50">
+            <div className="flex flex-wrap items-center gap-4 mb-4">
+              <select className="p-2 border rounded">
+                <option>10</option>
+              </select>
+            </div>
+
+            <h2 className="text-lg font-semibold mt-4 mb-2">Lead Details</h2>
+
+            <div className="overflow-x-auto">
+              <table className="w-full border border-gray-300 text-sm">
+                <thead className="bg-blue-100">
                   <tr>
-                    <th className="px-4 py-2 border">
-                      <input type="checkbox" />
-                    </th>
-                    <th className="px-4 py-2 border">Name</th>
-                    <th className="px-4 py-2 border">Email</th>
-                    <th className="px-4 py-2 border">Mobile</th>
-                    <th className="px-4 py-2 border">Source</th>
-                    <th className="px-4 py-2 border">Assigned</th>
-                    <th className="px-4 py-2 border">Status</th>
-                    <th className="px-4 py-2 border">Action</th>
+                    <th className="border p-2"></th>
+                    <th className="border p-2">Name</th>
+                    <th className="border p-2">Email</th>
+                    <th className="border p-2">Mobile</th>
+                    <th className="border p-2">Source</th>
+                    <th className="border p-2">Assigned</th>
+                    <th className="border p-2">Status</th>
+                    <th className="border p-2">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {leads.map((lead, index) => (
-                    <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                      <td className="px-4 py-2 border">
+                    <tr key={index} className="text-center">
+                      <td className="border p-2">
                         <input type="checkbox" />
                       </td>
-                      <td className="px-4 py-2 border">{lead.name}</td>
-                      <td className="px-4 py-2 border">{lead.email}</td>
-                      <td className="px-4 py-2 border">{lead.mobile}</td>
-                      <td className="px-4 py-2 border">{lead.source}</td>
-                      <td className="px-4 py-2 border">{lead.assigned}</td>
-                      <td className="px-4 py-2 border">{lead.status}</td>
-                      <td className="px-4 py-2 border flex gap-2 flex-wrap">
-                        <button className="bg-teal-600 text-white p-2 rounded">
+                      <td className="border p-2">{lead.name}</td>
+                      <td className="border p-2">{lead.email}</td>
+                      <td className="border p-2">{lead.mobile}</td>
+                      <td className="border p-2">{lead.source}</td>
+                      <td className="border p-2">{lead.assigned}</td>
+                      <td className="border p-2">{lead.status}</td>
+                      <td className="border p-2 space-x-2">
+                        <button
+                          onClick={() => handleEdit(index)}
+                          className="text-green-600"
+                        >
                           <FaEdit />
                         </button>
-                        <button className="bg-red-600 text-white p-2 rounded">
+                        <button
+                          onClick={() => handleDelete(index)}
+                          className="text-red-600"
+                        >
                           <FaTrash />
                         </button>
-                        <button className="bg-blue-600 text-white p-2 rounded">
+                        <button
+                          onClick={handleViewNote}
+                          className="text-blue-600"
+                        >
                           <FaEye />
                         </button>
                       </td>
@@ -142,42 +192,174 @@ export default function Page() {
                   ))}
                 </tbody>
               </table>
-              <div className="flex flex-wrap justify-center gap-2 p-4">
-                <button className="bg-teal-600 text-white px-3 py-1 rounded">Prev</button>
-                <button className="border px-3 py-1 rounded">1</button>
-                <button className="border px-3 py-1 rounded">2</button>
-                <button className="border px-3 py-1 rounded">3</button>
-                <button className="bg-teal-600 text-white px-3 py-1 rounded">Next</button>
-              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-start space-x-2 mt-4">
+              <button className="bg-green-600 text-white px-3 py-1 rounded">
+                Preview
+              </button>
+              <button className="border px-3 py-1">1</button>
+              <button className="border px-3 py-1">2</button>
+              <button className="border px-3 py-1">3</button>
+              <button className="border px-3 py-1">4</button>
+              <button className="bg-teal-600 text-white px-3 py-1 rounded">
+                Next
+              </button>
             </div>
           </div>
         </div>
+      </div>
+      {showModal && editingLead && (
+        <div className="fixed inset-0   bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded shadow-md p-6 w-full max-w-xl">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Update Leads</h2>
+              <button
+                onClick={() => setShowModal(false)}
+                className="text-gray-500 text-xl"
+              >
+                &times;
+              </button>
+            </div>
 
-        {showModal && (
-          <div className="fixed inset-0  bg-opacity-40 flex items-center justify-center z-50 px-4">
-            <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-lg space-y-4">
-              <h2 className="text-xl font-bold mb-4">Add New Lead</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {["name", "email", "mobile", "source", "assigned", "status"].map((field) => (
-                  <input
-                    key={field}
-                    type="text"
-                    name={field}
-                    placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                    className="border p-2 rounded"
-                    value={newLead[field]}
-                    onChange={handleChange}
-                  />
-                ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Name</label>
+                <input
+                  type="text"
+                  defaultValue={editingLead.name}
+                  className="w-full border p-2 rounded"
+                />
               </div>
-              <div className="flex justify-end gap-2">
-                <button className="bg-gray-300 px-4 py-2 rounded" onClick={() => setShowModal(false)}>Cancel</button>
-                <button className="bg-teal-600 text-white px-4 py-2 rounded" onClick={handleAddLead}>Add Lead</button>
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Email id
+                </label>
+                <input
+                  type="email"
+                  defaultValue={editingLead.email}
+                  className="w-full border p-2 rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Phone No
+                </label>
+                <input
+                  type="text"
+                  defaultValue={editingLead.mobile}
+                  className="w-full border p-2 rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">State</label>
+                <input type="text" className="w-full border p-2 rounded" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Lead Source
+                </label>
+                <select
+                  className="w-full border p-2 rounded"
+                  defaultValue={editingLead.source}
+                >
+                  <option>Phone Call</option>
+                  <option>Marketing</option>
+                  <option>Google</option>
+                  <option>Facebook</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Assign Lead
+                </label>
+                <select
+                  className="w-full border p-2 rounded"
+                  defaultValue={editingLead.assigned}
+                >
+                  <option>User 1</option>
+                  <option>User 2</option>
+                  <option>User 3</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Lead Status
+                </label>
+                <select
+                  className="w-full border p-2 rounded"
+                  defaultValue={editingLead.status}
+                >
+                  <option>Follow up</option>
+                  <option>DND</option>
+                  <option>Interested</option>
+                  <option>Switch Off</option>
+                  <option>Not Important</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Tour Details
+                </label>
+                <textarea className="w-full border p-2 rounded"></textarea>
               </div>
             </div>
+
+            <div className="flex justify-end mt-4 space-x-2">
+              <button
+                onClick={() => setShowModal(false)}
+                className="bg-red-600 text-white px-4 py-2 rounded"
+              >
+                Close
+              </button>
+              <button className="bg-green-600 text-white px-4 py-2 rounded">
+                Save
+              </button>
+            </div>
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+      {showNoteModal && (
+        <div className="fixed inset-0   bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded shadow-md p-6 w-full max-w-md">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold flex items-center space-x-2">
+                <span>📈</span>
+                <span>Leads Note</span>
+              </h2>
+              <button
+                onClick={() => setShowNoteModal(false)}
+                className="text-gray-500 text-xl"
+              >
+                &times;
+              </button>
+            </div>
+
+            <p className="text-sm text-gray-600 mb-2">📅 {noteDate}</p>
+            <p className="mb-2">Write some notes about this leads</p>
+
+            <textarea
+              placeholder="Write Your Note"
+              value={noteText}
+              onChange={(e) => setNoteText(e.target.value)}
+              className="w-full border p-2 rounded mb-4"
+              rows={4}
+            />
+
+            <div className="flex justify-end space-x-2">
+              <button className="bg-green-600 text-white px-4 py-2 rounded">
+                Save
+              </button>
+              <button
+                onClick={() => setShowNoteModal(false)}
+                className="bg-red-600 text-white px-4 py-2 rounded"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
